@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temu Wishlist</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="brand">
+        <span class="brand-badge">&#9829;</span>
+        <div>
+          <h1>Temu Wishlist</h1>
+          <p id="item-count-label">0 artikala</p>
+        </div>
+      </div>
+      <button id="open-dashboard-btn" class="btn-secondary" title="Otvori preglednu web aplikaciju">
+        Web Lista &#8599;
+      </button>
+    </header>
+
+    <section id="current-product-section" class="card hidden">
+      <div class="section-label">Trenutni artikal na Temuu</div>
+      <div class="current-product">
+        <img id="cp-img" src="" alt="" />
+        <div class="cp-info">
+          <div id="cp-title" class="cp-title"></div>
+          <div id="cp-price" class="cp-price"></div>
+        </div>
+      </div>
+      <div class="cp-controls">
+        <select id="cp-category"></select>
+        <button id="cp-save-btn" class="btn-primary">Sačuvaj u Wishlistu</button>
+      </div>
+      <div id="cp-feedback" class="feedback hidden"></div>
+    </section>
+
+    <section id="not-temu-hint" class="card hint-card hidden">
+      <p>Otvorite bilo koji artikal na <strong>temu.com</strong> da ga jednim klikom spremite u svoju wishlistu.</p>
+    </section>
+
+    <section class="card settings-card">
+      <label class="toggle-row">
+        <span>Plutajuće dugme na Temuu</span>
+        <input type="checkbox" id="toggle-floating" />
+      </label>
+      <label class="toggle-row">
+        <span>Presretni klik "Dodaj u korpu"</span>
+        <input type="checkbox" id="toggle-intercept" />
+      </label>
+    </section>
+
+    <section class="recent-section">
+      <div class="recent-header">
+        <span>Nedavno sačuvano</span>
+        <a href="#" id="view-all-link">Prikaži sve</a>
+      </div>
+      <div id="recent-list" class="recent-list"></div>
+    </section>
+  </div>
+
+  <script src="../shared/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

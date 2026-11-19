@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temu Wishlist — Pregledna lista želja</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-icon">&#9829;</div>
+        <div>
+          <h1>Temu Wishlist</h1>
+          <p>Vaša lična lista želja umjesto prepune korpe</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button id="add-manual-btn" class="btn btn-primary">+ Dodaj ručno</button>
+        <button id="export-csv-btn" class="btn btn-outline">Izvezi CSV</button>
+        <button id="export-json-btn" class="btn btn-outline">Izvezi JSON</button>
+        <label class="btn btn-outline file-btn">
+          Uvezi JSON
+          <input type="file" id="import-json-input" accept=".json,application/json" hidden />
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Artikala na listi</span>
+        <strong id="stat-active" class="stat-value">0</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Ukupna vrijednost liste</span>
+        <strong id="stat-total" class="stat-value accent">0.00 €</strong>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Kupljeno / Arhivirano</span>
+        <strong id="stat-purchased" class="stat-value">0</strong>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" data-status="wishlist">Na listi želja</button>
+        <button class="tab-btn" data-status="purchased">Kupljeno</button>
+        <button class="tab-btn" data-status="all">Svi artikli</button>
+      </div>
+
+      <div class="filters">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Pretraži po nazivu ili bilješci..."
+        />
+        <select id="filter-category">
+          <option value="all">Sve kategorije</option>
+        </select>
+        <select id="filter-priority">
+          <option value="all">Svi prioriteti</option>
+          <option value="high">Visok prioritet</option>
+          <option value="medium">Srednji prioritet</option>
+          <option value="low">Nizak prioritet</option>
+        </select>
+        <select id="sort-select">
+          <option value="newest">Najnovije prvo</option>
+          <option value="oldest">Najstarije prvo</option>
+          <option value="price-asc">Cijena: niža &rarr; viša</option>
+          <option value="price-desc">Cijena: viša &rarr; niža</option>
+          <option value="priority">Po prioritetu</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="items-grid" class="items-grid"></section>
+
+    <section id="empty-state" class="empty-state hidden">
+      <div class="empty-icon">&#128722;</div>
+      <h2>Nema artikala za prikaz</h2>
+      <p>
+        Otvorite bilo koji artikal na <strong>temu.com</strong> i kliknite
+        <strong>"Dodaj u Wishlistu"</strong>, ili dodajte artikal ručno putem dugmeta iznad.
+      </p>
+    </section>
+  </main>
+
+  <!-- Modal for Add / Edit Item -->
+  <div id="item-modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 id="modal-title">Dodaj artikal</h2>
+        <button id="modal-close-btn" class="close-btn" aria-label="Zatvori">&times;</button>
+      </div>
+      <form id="item-form" class="modal-form">
+        <input type="hidden" id="form-item-id" />
+        <label>
+          <span>Link artikla (Temu URL) *</span>
+          <input type="url" id="form-url" placeholder="https://www.temu.com/..." required />
+        </label>
+        <label>
+          <span>Naziv artikla *</span>
+          <input type="text" id="form-title" placeholder="npr. Bežične slušalice..." required />
+        </label>
+        <div class="form-row">
+          <label>
+            <span>Cijena</span>
+            <input type="text" id="form-price" placeholder="npr. 12.99 €" />
+          </label>
+          <label>
+            <span>Kategorija</span>
+            <select id="form-category"></select>
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            <span>Prioritet</span>
+            <select id="form-priority">
+              <option value="high">Visok</option>
+              <option value="medium" selected>Srednji</option>
+              <option value="low">Nizak</option>
+            </select>
+          </label>
+          <label>
+            <span>URL slike (opcionalno)</span>
+            <input type="url" id="form-image" placeholder="https://..." />
+          </label>
+        </div>
+        <label>
+          <span>Bilješka (veličina, boja, razlog...)</span>
+          <textarea id="form-note" rows="3" placeholder="npr. Crna boja, veličina M..."></textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="button" id="modal-cancel-btn" class="btn btn-outline">Otkaži</button>
+          <button type="submit" class="btn btn-primary">Sačuvaj</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="dash-toast" class="dash-toast"></div>
+
+  <script src="../shared/storage.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
